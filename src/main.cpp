@@ -6,30 +6,24 @@
 #include "time.h"
 #include "DHTesp.h"
 
+#include "config/Pins.h"
+
+#include "services/WiFi/instance/instanceServiceWiFi.h"
+#include "core/AppState/AppState.h"
+
+
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 #define OLED_ADDR 0x3C
-#define BUZZER_PIN 25
 
-//DHT
-#define DHT_PIN 33
+
+//dht
 DHTesp dht;
 unsigned long lastHTDSync = 0;
 const unsigned long syncHTDInterval = 2000;
 TempAndHumidity dataDHT;
 
-#define BTN_UP 15
-#define BTN_DOWN 4
-#define BTN_LEFT 5
-#define BTN_RIGHT 23
-#define BTN_BACK 18
-#define BTN_OK 19
-
 #define OCTAVE_OFFSET 0
-
-
-
-
 
 //WIFI
 const char* ssid = "DOMRU_8FD2";
@@ -47,7 +41,7 @@ const unsigned long syncInterval = 3600000; // раз в час
 const int daylightOffset_sec = 0;
 
 //SCREENS
-uint8_t currentScreen = 0;
+//uint8_t currentScreen = 0;
 uint8_t lastScreen = 255;
 bool lastBtnState = HIGH;
 
@@ -83,7 +77,7 @@ int menuPagesCount = (menuCount + itemsPerPage - 1) / itemsPerPage;
 
 
 //declaration
-void updateInput();
+//void updateInput();
 
 void screenTime();
 void screenHT();
@@ -230,13 +224,13 @@ void drawLastSync(){
     display.println(buf);
 }
 
-void drawLoading(const char* c){
+/*void drawLoading(const char* c){
   display.clearDisplay();
   display.setTextSize(2);
   display.setTextColor(SSD1306_WHITE);
   printCenter(c);
   display.display();
-}
+}*/
 
 
 ///
@@ -286,32 +280,7 @@ bool handleButton(uint8_t btn){
 }
 
 //wifi
-bool connectWiFi(bool needPrint = false,uint32_t timeoutMs = 10000) {
-  Serial.print("Connecting to WiFi");
-  if (needPrint) drawLoading("Connecting WiFi");
-  unsigned long startAttempt = millis();
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) 
-    {
-      if (millis() - startAttempt >= timeoutMs) 
-      {
-        disconnectWiFi();
-        Serial.println("WiFi connecting Error");
-        return false;
-      }
-      delay(100);
-    }
-  wifiConnected = true;
-  Serial.println("WiFi connected");
-  return true;
-}
 
-void disconnectWiFi(){
-  WiFi.disconnect(true);   // разрывает соединение и очищает настройки
-  WiFi.mode(WIFI_OFF);     // полностью выключает Wi-Fi радиомодуль
-  wifiConnected = false;
-}
 
 //menu
 void calcMenuState(){
@@ -529,6 +498,7 @@ void update_rtttl() {
 }
 
 //time
+/*
 void checkLastSync(){
   unsigned long now = millis();
   // периодическая синхронизация раз в syncInterval
@@ -566,15 +536,19 @@ bool syncTime (bool needPrint = false, uint32_t timeoutMs = 5000){
   Serial.println("NTP sync failed");
   return false;
 }
-
+*/
 
 //
 ///BASE
 //
+
+
+
 void loop() {
   updateInput();
+  updateScreen();
   //updateMenuInput();
-  changeScreen();
+  //changeScreen();
   checkScreenUpdate();
   //checkLastSync(); //включить после подключения постоянного акб
   if(currentScreen == 1){
@@ -585,6 +559,8 @@ void loop() {
 }
 
 void setup() {
+  wifiService.begin(ssid, password);
+
   Wire.begin(21, 22);  // SDA=21, SCL=22
   Serial.begin(115200);
   pinMode(BUZZER_PIN, OUTPUT);
@@ -604,7 +580,7 @@ void setup() {
   }
 
   display.clearDisplay();
-  currentScreen = 255;
+  currentScreen = WIFI;
 }
 
 ///
@@ -634,7 +610,7 @@ void changeScreen(){
     screenWiFi();
     break;
   case 6:
-    screenAmogus();
+    //screenAmogus();
     break;
   case 7:
     screenBTNTest();
@@ -690,30 +666,12 @@ void screenBTNTest(){
   display.println(buttonTest.ok ? "Pressed" : "Idle");
   display.display();
 }
-
+/*
 void screenWiFi(){
-  if (!needUpdateScreen) return;
-  needUpdateScreen = false;
-
-  display.clearDisplay();
-  display.setTextSize(2);
-  display.setCursor(0,0);
-  display.setTextColor(SSD1306_WHITE);
-  display.println("WiFi");
-
-  if (wifiConnected){
-    display.println("Status:ON");
-    display.setTextSize(1);
-    display.println("Press DOWN to disable");
-  }
-  else {
-    display.println("Status:OFF");
-    display.setTextSize(1);
-    display.println("Press DOWN to enable");
-  }
-  display.display();
+  screenWiFi.
 }
-
+  */
+/*
 void screenTime(){
   drawLoading("Loading");
   display.display();
@@ -748,6 +706,8 @@ void screenTime(){
     display.display();
   }
 }
+
+*/
 
 void screenAmogus(){
   if(!needUpdateScreen)return;
@@ -786,7 +746,7 @@ void screenHT(){
 ///LOGIC
 ///
 
-void updateTimeInput(){
+/*void updateTimeInput(){
   if (handleButton(BTN_BACK))
   { currentScreen = 255; 
     return;}
@@ -816,7 +776,7 @@ void updateRadioInput(){
   { currentScreen = 255; 
     return;}
 }
-
+/*
 void updateWiFiInput(){
   if (handleButton(BTN_BACK))
   { currentScreen = 255; 
@@ -828,6 +788,8 @@ void updateWiFiInput(){
     needUpdateScreen = true;
   }
 }
+
+
 
 void updateAmogusInput(){
   if (handleButton(BTN_BACK))
@@ -856,6 +818,8 @@ void updateButtonTestInput(){
   buttonTest.ok = (digitalRead(BTN_OK) == LOW);
 }
 
+*/
+
 void updateMenuInput(){
     calcMenuState();
     if (handleButton(BTN_UP)){
@@ -868,7 +832,7 @@ void updateMenuInput(){
       }
     if (handleButton(BTN_OK)){
       needUpdateScreen = true;
-      currentScreen = start + menuIndex;
+      //currentScreen = start + menuIndex;
       }
     if (handleButton(BTN_LEFT)){
       if (menuPage == 0) menuPage = menuPagesCount - 1;
@@ -882,43 +846,3 @@ void updateMenuInput(){
       }
     }
 
-void updateInput(){
-  switch (currentScreen)
-  {
-  case 255:
-    updateMenuInput();
-    break;
-
-    case 0:
-    updateTimeInput();
-    break;
-
-    case 1:
-    updateHTInput();
-    break;
-
-    case 2:
-    updateCalendarInput();
-    break;
-
-    case 3:
-    updatePlayerInput();
-    break;
-
-    case 4:
-    updateRadioInput();
-    break;
-
-    case 5:
-    updateWiFiInput();
-    break;
-
-    case 6:
-    updateAmogusInput();
-    break;
-
-    case 7:
-    updateButtonTestInput();
-    break;
-  }
-}
