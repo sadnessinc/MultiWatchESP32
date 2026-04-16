@@ -1,13 +1,17 @@
 #pragma once
 
 //Buttons
-#define BTN_UP 15
-#define BTN_DOWN 4
-#define BTN_LEFT 5
-#define BTN_RIGHT 23
-#define BTN_BACK 18
-#define BTN_OK 19
+#define BTN_UP  27
+#define BTN_DOWN   18
+#define BTN_LEFT  33
+#define BTN_RIGHT 26
+#define BTN_BACK 32
+#define BTN_OK 25
 
 //Hardware
-#define BUZZER_PIN 25
-#define DHT_PIN 33
+#define BUZZER_PIN 23
+#define DHT_PIN 4
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define OLED_ADDR 0x3C

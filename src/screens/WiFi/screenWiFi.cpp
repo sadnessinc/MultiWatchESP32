@@ -5,13 +5,12 @@
 #include "core/Input/Input.h"
 
 #include <Arduino.h>
-
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
 extern Adafruit_SSD1306 display;
 
-InputService input;
+extern InputService input;
 
 void screenWiFi() {
   display.clearDisplay();
@@ -35,7 +34,7 @@ void screenWiFi() {
 
 void updateWiFiInput() {
     if (input.pressed(BTN_BACK)){
-        currentScreen = MENU;
+        setScreen(MENU);
         return;
     }
 
