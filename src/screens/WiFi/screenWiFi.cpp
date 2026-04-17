@@ -1,15 +1,15 @@
 #include "screenWiFi.h"
 
-#include "services\WiFi\instance\instanceServiceWiFi.h"
+#include "core/WiFi/WiFiNetwork.h"
 #include "core/AppState/AppState.h"
 #include "core/Input/Input.h"
+#include "additional/AdditionalLib.h"
 
 #include <Arduino.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
 extern Adafruit_SSD1306 display;
-
 extern InputService input;
 
 void screenWiFi() {
@@ -19,7 +19,7 @@ void screenWiFi() {
   display.setTextColor(SSD1306_WHITE);
   display.println("WiFi");
 
-  if (wifiService.isConnected()) {
+  if (wifiNetwork.isConnected()) {
     display.println("Status:ON");
     display.setTextSize(1);
     display.println("Press DOWN to disable");
@@ -39,26 +39,13 @@ void updateWiFiInput() {
     }
 
   if (input.pressed(BTN_DOWN)) {
-    if (wifiService.isConnected()){
+    if (wifiNetwork.isConnected()){
       
-      // заменить на drawLoading
-        display.clearDisplay();
-      display.setTextSize(2);
-      display.setCursor(0,16);
-      display.setTextColor(SSD1306_WHITE);
-      display.print("DISCONNECTING");
-      display.display();
-
-
-      wifiService.disconnect();}
+      drawLoading("DISCONNECTING");
+      wifiNetwork.disconnect();}
     else{
-        // заменить на drawLoading
-      display.clearDisplay();
-      display.setTextSize(2);
-      display.setCursor(0,16);
-      display.setTextColor(SSD1306_WHITE);
-      display.print("CONNECTING");
-      display.display();
-      wifiService.connect();}
+
+      drawLoading("CONNECTING");
+      wifiNetwork.connect();}
   }
 }

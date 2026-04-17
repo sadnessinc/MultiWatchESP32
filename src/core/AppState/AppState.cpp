@@ -3,7 +3,9 @@
 #include "screens/Menu/screenMenu.h"
 #include "screens/WiFi/screenWiFi.h"
 #include "screens/Amogus/screenAmogus.h"
-#include "screens/HT/HT.h" 
+#include "screens/HT/screenHT.h" 
+#include "screens/Time/screenTime.h"
+#include "screens/ButtonTest/ButtonTest.h"
 
 #include "core/Rtttl/Rtttl.h"
 
@@ -24,7 +26,6 @@ void updateScreen(){
         screenWiFi();
         break;
     
-
     case AMOGUS:
         screenAmogus();
         break;
@@ -32,9 +33,15 @@ void updateScreen(){
     case HT:
         screenHT();
         break;
-
-
     
+    case TIME:
+        screenTime();
+        break;
+
+    case BUTTONTEST:
+        screenButtonTest();
+        break;
+
     }
 }
 
@@ -57,6 +64,13 @@ void updateInput(){
         updateHTInput();
         break;
         
+    case TIME:
+        updateTimeInput();
+        break;
+
+    case BUTTONTEST:
+        updateButtonTestInput();
+        break;
         
     }
 }

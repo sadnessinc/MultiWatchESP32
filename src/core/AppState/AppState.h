@@ -18,14 +18,15 @@ struct MenuItem {
 };
 
 const MenuItem menu[]={
-    {TIME, "//Time"},
+    {TIME, "Time"},
     {HT, "Humidity/Temp"},
-    {CALENDAR, "//Calendar"},
-    {PLAYER, "//Player"},
-    {RADIO, "//Radio"},
     {WIFI, "WiFi"},
     {AMOGUS, "Amogus"},
-    {BUTTONTEST, "//Button test"} 
+    {BUTTONTEST, "Button test"},
+    {CALENDAR, "//Calendar"},
+    {PLAYER, "//Player"},
+    {RADIO, "//Radio"}
+    
 };
 // //->work in progress (unworked)
 

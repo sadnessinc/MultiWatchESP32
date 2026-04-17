@@ -14,7 +14,7 @@ struct Center
 
 void drawWiFiIcon();
 void drawLastSync();
-
+void drawTime();
 
 
 Bounds calcBounds(const char* text);

@@ -5,7 +5,7 @@
 #include <Arduino.h>
 #include "config/Pins.h"
 
-#include "services\WiFi\instance\instanceServiceWiFi.h"
+#include "core/WiFi/WiFiNetwork.h"
 
 #include "core/DateTime/DateTime.h"
 
@@ -17,20 +17,31 @@ extern bool lastSyncTimeChanged;
 extern unsigned long lastSync;
 extern tm lastSyncTime;
 
+
+
 void drawWiFiIcon() {
   // Размер и позиция
-  int x = SCREEN_WIDTH - 8;
+  int x = SCREEN_WIDTH - 8; //left time
   int y = 0;
 
-  if (wifiService.isConnected()) {
-    // Нарисуем простую "волнистую" иконку Wi-Fi
-    display.drawCircle(x+3, y+3, 1, SSD1306_WHITE);
-    display.drawCircle(x+3, y+3, 3, SSD1306_WHITE);
-    display.drawCircle(x+3, y+3, 5, SSD1306_WHITE);
-    display.fillCircle(x+3, y+3, 1, SSD1306_WHITE); // точка внизу
+
+const unsigned char wifiIcon[] PROGMEM = {
+  0b00011000,
+  0b00100100,
+  0b01000010,
+  0b00011000,
+  0b00100100,
+  0b00000000,
+  0b00011000,
+  0b00011000
+};
+
+    
+  if (wifiNetwork.isConnected()) {
+    display.drawBitmap(x, y, wifiIcon, 8, 8, SSD1306_WHITE);
   } else {
     // Если не подключено — можно стереть иконку
-    display.fillRect(x, y, 7, 7, SSD1306_BLACK);
+    display.fillRect(x, y, 8, 8, SSD1306_BLACK);
   }
 }
 
@@ -104,4 +115,24 @@ void drawLoading(const char* c){
   display.setTextColor(SSD1306_WHITE);
   printCenter(c);
   display.display();
+}
+
+void drawTime(){
+    int x = SCREEN_WIDTH-30;
+    int y = 9;
+    display.setTextSize(1);
+    display.setTextColor(SSD1306_WHITE);
+    char buf[6];
+
+    if(!syncedOnce){
+        strcpy(buf, "00:00");}
+    else{
+        getCurrentTimeHHMM(buf, sizeof(buf));}
+
+    display.setCursor(x, y);
+    display.fillRect(x, y, 30, 8, SSD1306_BLACK);
+
+    
+    
+    display.print(buf);
 }

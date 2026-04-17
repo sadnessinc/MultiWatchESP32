@@ -29,9 +29,11 @@ void screenMenu(){
   display.setCursor(0,0);
   display.setTextColor(SSD1306_WHITE);
   display.print("Menu");
-  display.setTextSize(1);
   drawWiFiIcon();
+  drawTime();
   calcMenuState();
+
+  display.setTextSize(1);
 
   for(int i = 0; i < visibleCount; i++){
     int index = start + i;
@@ -60,7 +62,6 @@ void updateMenuInput(){
       else menuIndex++;
       }
     if (input.pressed(BTN_OK)){
-      //needUpdateScreen = true;
       setScreen(menu[start+menuIndex].screen);
 
       }

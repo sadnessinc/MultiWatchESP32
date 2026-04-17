@@ -68,9 +68,6 @@ static const uint8_t amogus[800] PROGMEM = {
 const char *song = "Custom:d=8,o=5,b=120:c,8d#,8f,8f#,8f,8d#,8c,8p,8a#,8d,8c,8p,8p,8p,8p,c,8d#,8f,8f#,8f,8d#,8f#,8p,8f#,8f,8d#,8f#,8f,8d#";
 
 void screenAmogus(){
- /* if(!needUpdateScreen)return;
-  needUpdateScreen = false;*/
-
   display.clearDisplay();
   display.setTextColor(SSD1306_WHITE);
   // Для получения этого кода использовался онлайн конвертер https://duino.ru/media/image-converter/index.html 
