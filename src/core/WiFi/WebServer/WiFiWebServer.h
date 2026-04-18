@@ -2,6 +2,10 @@
 
 #include <Arduino.h>
 
+#pragma once
+
+#include <Arduino.h>
+
 class WiFiWebServer {
 public:
     static void begin();
@@ -12,4 +16,5 @@ public:
 
 private:
     static void setupServer();
+    static void setupWebSocket();
 };
