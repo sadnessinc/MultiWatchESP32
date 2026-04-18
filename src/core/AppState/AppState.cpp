@@ -6,6 +6,7 @@
 #include "screens/HT/screenHT.h" 
 #include "screens/Time/screenTime.h"
 #include "screens/ButtonTest/ButtonTest.h"
+#include "screens/Snake/screenSnake.h"
 
 #include "core/Rtttl/Rtttl.h"
 
@@ -42,6 +43,10 @@ void updateScreen(){
         screenButtonTest();
         break;
 
+    case SNAKE:
+        screenSnake();
+        break;
+
     }
 }
 
@@ -72,6 +77,9 @@ void updateInput(){
         updateButtonTestInput();
         break;
         
+    case SNAKE:
+        updateSnakeInput();
+        break;
     }
 }
 

@@ -130,7 +130,7 @@ void drawTime(){
         getCurrentTimeHHMM(buf, sizeof(buf));}
 
     display.setCursor(x, y);
-    display.fillRect(x, y, 30, 8, SSD1306_BLACK);
+    //display.fillRect(x, y, 30, 8, SSD1306_BLACK);
 
     
     

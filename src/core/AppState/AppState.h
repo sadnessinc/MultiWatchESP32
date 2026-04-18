@@ -9,7 +9,8 @@ enum Screen {
     RADIO,
     WIFI,
     AMOGUS,
-    BUTTONTEST
+    BUTTONTEST,
+    SNAKE
 };
 
 struct MenuItem {
@@ -22,10 +23,12 @@ const MenuItem menu[]={
     {HT, "Humidity/Temp"},
     {WIFI, "WiFi"},
     {AMOGUS, "Amogus"},
+    {SNAKE, "Snake"},
     {BUTTONTEST, "Button test"},
     {CALENDAR, "//Calendar"},
     {PLAYER, "//Player"},
     {RADIO, "//Radio"}
+
     
 };
 // //->work in progress (unworked)
