@@ -42,10 +42,13 @@ void updateWiFiInput() {
     if (wifiNetwork.isConnected()){
       
       drawLoading("DISCONNECTING");
-      wifiNetwork.disconnect();}
+      wifiNetwork.setAutoOff();
+      wifiNetwork.disconnect();
+      }
     else{
 
       drawLoading("CONNECTING");
+      wifiNetwork.setAutoOff(0);
       wifiNetwork.connect();}
   }
 }

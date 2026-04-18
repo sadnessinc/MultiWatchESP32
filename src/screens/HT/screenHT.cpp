@@ -44,5 +44,4 @@ void updateHTInput(){
   if (input.pressed(BTN_BACK))
   { setScreen(MENU); 
     return;}
-  getDHTdata();
 }

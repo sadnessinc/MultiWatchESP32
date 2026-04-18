@@ -22,7 +22,7 @@ public:
     bool connectFailed() const;
     bool hasCredentials() const;
 
-    void setAutoOff(uint32_t ms);
+    void setAutoOff(uint32_t ms = 30000);
     void keepAlive();
 
 private:

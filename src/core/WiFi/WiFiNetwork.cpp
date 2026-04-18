@@ -31,7 +31,7 @@ bool WiFiNetwork::connect(uint32_t timeoutMs) {
     _connected = false;
     _failed = false;
 
-    WiFi.mode(WIFI_STA);
+    WiFi.mode(WIFI_AP_STA);
     WiFi.begin(_ssid, _password);
 
     return true;

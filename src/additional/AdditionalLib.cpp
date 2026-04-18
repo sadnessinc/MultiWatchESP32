@@ -17,6 +17,20 @@ extern bool lastSyncTimeChanged;
 extern unsigned long lastSync;
 extern tm lastSyncTime;
 
+const unsigned char wifiIcon [] PROGMEM = {
+	0x7e, 0x81, 0x3c, 0x42, 0x18, 0x24, 0x00, 0x18
+};
+const unsigned char timeIcon [] PROGMEM = {
+	0x3c, 0x52, 0x91, 0x95, 0x99, 0x81, 0x42, 0x3c
+};
+
+const unsigned char syncIcon [] PROGMEM = {
+	0x3e, 0x44, 0x80, 0x81, 0x81, 0x01, 0x22, 0x7c
+};
+
+const unsigned char crossIcon [] PROGMEM = {
+	0x81, 0x42, 0x24, 0x18, 0x18, 0x24, 0x42, 0x81
+};
 
 
 void drawWiFiIcon() {
@@ -24,19 +38,6 @@ void drawWiFiIcon() {
   int x = SCREEN_WIDTH - 8; //left time
   int y = 0;
 
-
-const unsigned char wifiIcon[] PROGMEM = {
-  0b00011000,
-  0b00100100,
-  0b01000010,
-  0b00011000,
-  0b00100100,
-  0b00000000,
-  0b00011000,
-  0b00011000
-};
-
-    
   if (wifiNetwork.isConnected()) {
     display.drawBitmap(x, y, wifiIcon, 8, 8, SSD1306_WHITE);
   } else {
@@ -47,46 +48,31 @@ const unsigned char wifiIcon[] PROGMEM = {
 
 void drawLastSync(){
     if(!syncedOnce){
-      int16_t x1, y1;
-      uint16_t w, h;
-      display.setTextSize(1);         // маленький шрифт
-      display.getTextBounds("Time don't change", 0, 0, &x1, &y1, &w, &h);
-      int x = 2;  // небольшой отступ слева
-      int y = 0;                     // верхний край
-
-      // Стираем предыдущую область
-      display.fillRect(x, y, w, h, SSD1306_BLACK);
-
-      // Печатаем
-      
-      display.setCursor(x, y);
-      display.setTextColor(SSD1306_WHITE);
-      display.println("Time don't change");
+      int x = 2;  
+      int y = 0;     
+      display.drawBitmap(x, y, syncIcon, 8, 8, SSD1306_WHITE);
+      x = 12;
+      display.drawBitmap(x, y, crossIcon, 8, 8, SSD1306_WHITE);
       return;
     }
 
-    char buf[20];
-    snprintf(buf, sizeof(buf), "Last sync: %02d:%02d", lastSyncTime.tm_hour, lastSyncTime.tm_min);
 
-    // Вычисляем позицию справа вверху
-    int16_t x1, y1;
-    uint16_t w, h;
+    int x = 2;
+    int y = 0;
+    display.setCursor(x, y);
+    display.drawBitmap(x, y, syncIcon, 8, 8, SSD1306_WHITE);
+
+    char buf[6];
+    snprintf(buf, sizeof(buf), "%02d:%02d", lastSyncTime.tm_hour, lastSyncTime.tm_min);
+
     display.setTextSize(1);         // маленький шрифт
-    display.getTextBounds(buf, 0, 0, &x1, &y1, &w, &h);
-    int x = 2;  // небольшой отступ слева
-    int y = 0;                     // верхний край
 
-    // Стираем предыдущую область
-    display.fillRect(x, y, w, h, SSD1306_BLACK);
-
-    // Печатаем
+    x = 12;
     display.setCursor(x, y);
     display.setTextColor(SSD1306_WHITE);
-    display.println(buf);
+    display.print(buf);
+    
 }
-
-
-
 
 Bounds calcBounds(const char* text)
                 {

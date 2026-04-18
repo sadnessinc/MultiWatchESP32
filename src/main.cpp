@@ -9,6 +9,8 @@
 #include "core/Input/Input.h"
 #include "core/DateTime/DateTime.h"
 #include "additional/AdditionalLib.h"
+#include "core/WiFi/WebServer/WiFiWebServer.h"
+#include "core/DHT/DHT.h"
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
@@ -23,17 +25,24 @@ const char* ssid = "DOMRU_8FD2";
 const char* password = "97698210";
 
 void loop() {
+  getDHTdata();
+
   wifiNetwork.update();
+  WiFiWebServer::update();
+
   timeUpdate();
   updateScreen();
   updateInput();
   updateSound();
+  
 }
 
 void setup() {
   wifiNetwork.setCredentials(ssid, password);
-  wifiNetwork.setAutoOff(60000); // 60 секунд после последнего использования
+  wifiNetwork.setAutoOff(30000); // 30 секунд после последнего использования
   
+  WiFiWebServer::begin();
+
   Wire.begin(21, 22);  // SDA=21, SCL=22
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   display.clearDisplay();

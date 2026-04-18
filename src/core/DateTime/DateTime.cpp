@@ -3,6 +3,11 @@
 #include <Arduino.h>
 #include "core/WiFi/WiFiNetwork.h"
 
+#include "additional/AdditionalLib.h"
+#include <Adafruit_SSD1306.h>
+#include <Adafruit_GFX.h>
+extern Adafruit_SSD1306 display;
+
 const char* ntpServer = "pool.ntp.org";
 const long gmtOffset_sec = 3 * 3600;
 const int daylightOffset_sec = 0;
@@ -47,8 +52,7 @@ void timeUpdate() {
 
         case TIME_WAITING: {
             struct tm timeinfo;
-
-            if (getLocalTime(&timeinfo)) {
+            if (getLocalTime(&timeinfo, 0)){
                 lastSync = now;
                 state = TIME_READY;
                 syncedOnce = true;
