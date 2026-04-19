@@ -1,8 +1,12 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <WiFi.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+#include "DHTesp.h"
 
 #include "config/Pins.h"
+//#include "config/mainConfig.h" //if i got vpn on my pc/server or in my country change president (add telegram bot)
 
 #include "core/WiFi/WiFiNetwork.h"
 #include "core/AppState/AppState.h"
@@ -11,10 +15,6 @@
 #include "additional/AdditionalLib.h"
 #include "core/WiFi/WebServer/WiFiWebServer.h"
 #include "core/DHT/DHT.h"
-
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-#include "DHTesp.h"
 
 Adafruit_SSD1306 display(128, 64, &Wire, -1);
 InputService input;
@@ -30,6 +30,8 @@ void loop() {
   wifiNetwork.update();
   WiFiWebServer::update();
 
+  bool condition = true;
+
   timeUpdate();
   updateScreen();
   updateInput();
@@ -43,7 +45,6 @@ void setup() {
   wifiNetwork.changeWiFiMode(WiFiNetwork::WiFiMode::AP_STA);
 
   WiFiWebServer::begin();
-
   Wire.begin(21, 22);  // SDA=21, SCL=22
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   display.clearDisplay();
@@ -64,6 +65,8 @@ void setup() {
   display.display();
   delay(500);
 }
+
+
 
 /*
 
