@@ -30,7 +30,7 @@ void screenTime() {
     if (state == TIME_WIFI_CONNECTING) {
         display.setTextSize(2);
         printCenter("WiFi...");
-        drawWiFiIcon();
+        drawWiFi();
         display.display();
         return;
     }
@@ -38,7 +38,7 @@ void screenTime() {
     if (state == TIME_WAITING) {
         display.setTextSize(2);
         printCenter("Sync...");
-        drawWiFiIcon();
+        drawWiFi();
         display.display();
         return;
     }
@@ -46,7 +46,7 @@ void screenTime() {
     if (state == TIME_ERROR) {
         display.setTextSize(2);
         printCenter("No NTP");
-        drawWiFiIcon();
+        drawWiFi();
         drawLastSync();
         display.display();
         return;
@@ -68,7 +68,7 @@ void screenTime() {
             printCenter(buf);
         }
 
-        drawWiFiIcon();
+        drawWiFi();
         drawLastSync();
         display.display();
     }

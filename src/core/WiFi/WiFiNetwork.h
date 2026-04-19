@@ -5,17 +5,21 @@
 
 class WiFiNetwork {
 public:
+    enum class WiFiMode {
+        OFF,
+        STA,
+        AP,
+        AP_STA
+    };
+
     WiFiNetwork();
 
     void setCredentials(const char* ssid, const char* password);
 
-    // Старт подключения. Не ждёт результат.
     bool connect(uint32_t timeoutMs = 5000);
-
-    // Вызывать часто из loop() или из timeUpdate()
     void update();
-
-    void disconnect();
+    void disconnect();      // полностью выключить Wi-Fi
+    void stopConnection();  // только разорвать STA-соединение
 
     bool isConnected() const;
     bool isConnecting() const;
@@ -25,7 +29,21 @@ public:
     void setAutoOff(uint32_t ms = 30000);
     void keepAlive();
 
+    void changeWiFiMode(WiFiMode mode);
+    WiFiMode getCurrentEnumWiFiMode() const;
+    WiFiMode_t getCurrentWiFiMode() const;
+    const char* toStringWiFiMode(WiFiMode mode) const;
+
+    void prevWiFiMode();
+    void nextWiFiMode();
+
+    bool isAPMode(WiFiNetwork::WiFiMode mode);
+
 private:
+    void applyMode();
+
+    WiFiMode _mode;
+
     const char* _ssid;
     const char* _password;
 

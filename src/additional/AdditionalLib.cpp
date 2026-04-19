@@ -17,31 +17,32 @@ extern bool lastSyncTimeChanged;
 extern unsigned long lastSync;
 extern tm lastSyncTime;
 
-const unsigned char wifiIcon [] PROGMEM = {
-	0x7e, 0x81, 0x3c, 0x42, 0x18, 0x24, 0x00, 0x18
-};
-const unsigned char timeIcon [] PROGMEM = {
-	0x3c, 0x52, 0x91, 0x95, 0x99, 0x81, 0x42, 0x3c
-};
 
-const unsigned char syncIcon [] PROGMEM = {
-	0x3e, 0x44, 0x80, 0x81, 0x81, 0x01, 0x22, 0x7c
-};
+void drawWiFiIcon();
+void drawWiFiApIcon();
 
-const unsigned char crossIcon [] PROGMEM = {
-	0x81, 0x42, 0x24, 0x18, 0x18, 0x24, 0x42, 0x81
-};
-
+void drawWiFi(){
+  drawWiFiIcon();
+  drawWiFiApIcon();
+}
 
 void drawWiFiIcon() {
   // Размер и позиция
   int x = SCREEN_WIDTH - 8; //left time
   int y = 0;
-
-  if (wifiNetwork.isConnected()) {
-    display.drawBitmap(x, y, wifiIcon, 8, 8, SSD1306_WHITE);
+  if (wifiNetwork.isConnected()){
+  display.drawBitmap(x, y, wifiIcon, 8, 8, SSD1306_WHITE);
   } else {
-    // Если не подключено — можно стереть иконку
+    display.fillRect(x, y, 8, 8, SSD1306_BLACK);
+  }
+}
+
+void drawWiFiApIcon(){
+  int x = SCREEN_WIDTH - 17; //left wifi
+  int y = 0;
+  if (wifiNetwork.isAPMode(wifiNetwork.getCurrentEnumWiFiMode())){
+  display.drawBitmap(x, y, WiFiApIcon, 8, 8, SSD1306_WHITE);
+  } else {
     display.fillRect(x, y, 8, 8, SSD1306_BLACK);
   }
 }

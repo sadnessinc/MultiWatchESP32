@@ -20,12 +20,18 @@ void screenHT(){
   display.clearDisplay();
   display.setTextColor(SSD1306_WHITE);
   display.setTextSize(2);
-  Bounds b = calcBounds("TEMP/HUM");
-  Center c = calcCenter(b.w,b.h);
-  display.setCursor(c.x,0);
+  display.setCursor(0,0);
   display.print("TEMP/HUM");
 
+  drawWiFi();
+  drawTime();
+
+
+
+
   display.setTextSize(3);
+  Bounds b;
+  Center c;
   
   b = calcBounds("00 C");
   c = calcCenter(b.w,b.h);

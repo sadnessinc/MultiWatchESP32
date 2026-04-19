@@ -29,7 +29,7 @@ void screenMenu(){
   display.setCursor(0,0);
   display.setTextColor(SSD1306_WHITE);
   display.print("Menu");
-  drawWiFiIcon();
+  drawWiFi();
   drawTime();
   calcMenuState();
 

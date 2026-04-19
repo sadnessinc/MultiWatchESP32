@@ -7,6 +7,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include "core/Rtttl/Rtttl.h"
+#include "additional/AdditionalLib.h"
 
 extern Adafruit_SSD1306 display;
 extern InputService input;
@@ -68,8 +69,11 @@ static const uint8_t amogus[800] PROGMEM = {
 const char *song = "Custom:d=8,o=5,b=120:c,8d#,8f,8f#,8f,8d#,8c,8p,8a#,8d,8c,8p,8p,8p,8p,c,8d#,8f,8f#,8f,8d#,8f#,8p,8f#,8f,8d#,8f#,8f,8d#";
 
 void screenAmogus(){
-  display.clearDisplay();
+  display.clearDisplay();   
+  drawTime();
+  drawWiFi();
   display.setTextColor(SSD1306_WHITE);
+
   // Для получения этого кода использовался онлайн конвертер https://duino.ru/media/image-converter/index.html 
   display.drawBitmap(0, 14, amogus, 128, 50, SSD1306_WHITE);
   display.display();

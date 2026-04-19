@@ -40,7 +40,8 @@ void loop() {
 void setup() {
   wifiNetwork.setCredentials(ssid, password);
   wifiNetwork.setAutoOff(30000); // 30 секунд после последнего использования
-  
+  wifiNetwork.changeWiFiMode(WiFiNetwork::WiFiMode::AP_STA);
+
   WiFiWebServer::begin();
 
   Wire.begin(21, 22);  // SDA=21, SCL=22

@@ -158,7 +158,7 @@ void screenSnake(){
     updateGame();
     drawGame();
     drawTime();
-    drawWiFiIcon();
+    drawWiFi();
     drawTitle();
     display.display();
     } 

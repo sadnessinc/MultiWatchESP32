@@ -73,7 +73,7 @@ void WiFiWebServer::setupWebSocket() {
 }
 
 void WiFiWebServer::begin() {
-    WiFi.mode(WIFI_AP);
+    //WiFi.mode(WIFI_AP);
     WiFi.softAP(AP_SSID, AP_PASS);
 
     setupServer();
